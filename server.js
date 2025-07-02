@@ -1,5 +1,5 @@
 import express from 'express';
-import { testConnection, pool } from './db.js';
+import { testConnection, pool } from './database/db.js';
 import dotenv from 'dotenv';
 
 import userRoutes from './routes/userRoutes.js';
