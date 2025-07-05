@@ -1,5 +1,5 @@
 import express from 'express';
-import { testConnection, pool } from './database/db.js';
+import { pool } from './database/db.js';
 import dotenv from 'dotenv';
 
 import userRoutes from './routes/userRoutes.js';
@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 // Root endpoint
 app.get('/', (req, res) => {
      res.json({
-          message: 'Zomato API is running!',
+          message: '🍕 Zomato API is running!',
           status: 'success',
           timestamp: new Date().toISOString(),
           endpoints: {

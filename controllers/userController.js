@@ -2,6 +2,28 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { pool } from '../database/db.js';
 
+
+// Email validation regex
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Enhanced password validation
+const validatePassword = (password) => {
+     if (password.length < 8) {
+          return "Password must be at least 8 characters long";
+     }
+     if (!/[A-Z]/.test(password)) {
+          return "Password must contain at least one uppercase letter";
+     }
+     if (!/[a-z]/.test(password)) {
+          return "Password must contain at least one lowercase letter";
+     }
+     if (!/\d/.test(password)) {
+          return "Password must contain at least one number";
+     }
+     return null; // Password is valid
+};
+
+
 const register = async (req, res) => {
      try {
           const { name, email, password , role} = req.body;
@@ -12,8 +34,17 @@ const register = async (req, res) => {
                return res.status(400).json({ message : "Email, Name Or Password required"})
           }
 
-          if(password.length < 6){
-               return res.status(400).json({ message : "Password must be at least 6 characters long"});
+          // Email validation
+          if (!emailRegex.test(email)) {
+               return res.status(400).json({ 
+                    message: "Please provide a valid email address" 
+               });
+          }
+
+          // Enhanced password validation
+          const passwordError = validatePassword(password);
+          if (passwordError) {
+               return res.status(400).json({ message: passwordError });
           }
 
           if(role !== 'user' && role !== 'admin'){

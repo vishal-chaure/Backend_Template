@@ -1,4 +1,4 @@
-import { authenticateToken } from "../middleware/auth.js";
+import { authenticateToken, loginLimiter } from "../middleware/auth.js";
 import { requireAdmin } from "../middleware/admin.js";
 import { Router } from "express";
 import { register, login, getProfile } from "../controllers/userController.js";
@@ -6,7 +6,7 @@ import { register, login, getProfile } from "../controllers/userController.js";
 const router = Router();
 
 router.post('/register', register);
-router.post('/login', login);
+router.post('/login', loginLimiter, login);
 
 router.get('/getProfile', authenticateToken, getProfile);
 

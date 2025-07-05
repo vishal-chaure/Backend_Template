@@ -1,4 +1,19 @@
 import jwt from 'jsonwebtoken';
+import rateLimit from 'express-rate-limit';
+
+// Rate limiting for login attempts
+const loginLimiter = rateLimit({
+     windowMs: 15 * 60 * 1000, // 15 minutes
+     max: 5, // 5 attempts per window
+     message: 'Too many login attempts, please try again later',
+     handler: (req, res) => {
+          res.status(429).json({
+               status: 'error',
+               message: 'Too many login attempts, please try again later',
+               retryAfter: '15 minutes'
+          });
+     }
+});
 
 const authenticateToken = (req, res, next) => {
      const authHeader = req.headers['authorization'];
@@ -21,4 +36,4 @@ const authenticateToken = (req, res, next) => {
      }
 }
 
-export { authenticateToken };
+export { authenticateToken , loginLimiter };
