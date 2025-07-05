@@ -1,5 +1,5 @@
 import express from 'express';
-import { pool } from './database/db.js';
+import { pool, checkDatabaseHealth } from './database/db.js';
 import dotenv from 'dotenv';
 
 import userRoutes from './routes/userRoutes.js';
@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
 // Test database connection endpoint
 app.get('/test-db', async (req, res) => {
      try {
-          await testConnection();
+          await checkDatabaseHealth();
           res.status(200).json({ message: 'Database connection successful' });
      } catch (error) {
           res.status(500).json({ message: 'Database connection failed', error: error.message });

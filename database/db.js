@@ -7,12 +7,12 @@ const pool = mysql.createPool({
      user: process.env.DB_USER,
      password: process.env.DB_PASSWORD,
      database: process.env.DB_NAME,
-     waitForConnections: process.env.DB_WAIT_FOR_CONNECTIONS,
-     connectionLimit: process.env.DB_CONNECTION_LIMIT,
-     queueLimit: process.env.DB_QUEUE_LIMIT,
-     acquireTimeout: process.env.DB_ACQUIRE_TIMEOUT,
-     timeout: process.env.DB_TIMEOUT,
-     reconnect: process.env.DB_RECONNECT,
+     waitForConnections: true,
+     connectionLimit: 20,
+     queueLimit: 0,
+     acquireTimeout: 60000,
+     timeout: 60000,
+     reconnect: true,
 });
 
 const promisePool = pool.promise();
